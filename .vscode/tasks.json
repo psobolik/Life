@@ -1,0 +1,87 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Sketch",
+            "type": "shell",
+            "command": "processing",
+            "args": [
+                "cli",
+                "--force",
+                "--sketch=${workspaceRoot}/Life",
+                "--output=${workspaceRoot}/out",
+                "--run"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "silent",
+                "focus": false,
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": {
+                "owner": "processing",
+                "source": "processing",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/Life"
+                ],
+                "severity": "error",
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):(\\d+):(\\d+):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "endLine": 4,
+                    "endColumn": 5,
+                    "message": 6,
+                    "location": 2
+                }
+            },
+        },
+        {
+            "label": "Build Sketch",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "processing",
+            "args": [
+                "cli",
+                "--force",
+                "--sketch=${workspaceRoot}/Life",
+                "--output=${workspaceRoot}/out",
+                "--build"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": {
+                "owner": "processing",
+                "source": "processing",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/Life"
+                ],
+                "severity": "error",
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):(\\d+):(\\d+):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "endLine": 4,
+                    "endColumn": 5,
+                    "message": 6,
+                    "location": 2
+                }
+            },
+        }
+    ]
+}
