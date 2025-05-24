@@ -2,27 +2,24 @@ import java.util.List;
 import java.util.Arrays;
 
 class Grid {
-  private final color CELL_EDGE_COLOR = #444444;
-  private final color POPULATED_CELL_COLOR = #c0c070;
-  private final color VACANT_CELL_COLOR = #000000;
-
-  private final color BORDER_COLOR = #444444;
-  private final color BORDER_LIGHT = #c0c070;
-
-  private CellStatus[][] _cellStatusGrid;
+  private int _cellCount;
   private int _left;
   private int _top;
   private int _size;
   private int _margin;
-  private int _cellCount;
+  private GridTheme _theme;
+
+  private CellStatus[][] _cellStatusGrid;
   private int _generations;
 
-  public Grid(int cellCount, int left, int top, int size, int margin) {
+  public Grid(int cellCount, int left, int top, int size, int margin, GridTheme theme) {
+    _cellCount = cellCount;
     _left = left;
     _top = top;
     _size = size;
     _margin = margin;
-    _cellCount = cellCount;
+    _theme = theme;
+
     _cellStatusGrid = new CellStatus[cellCount][cellCount];
     clearGrid();
   }
@@ -160,7 +157,7 @@ class Grid {
 
     strokeWeight(0);
 
-    fill(BORDER_COLOR);
+    fill(_theme.borderTheme.main);
     square(left, top, size);
 
     final int margin = (_margin / 5) * 4;
@@ -168,7 +165,7 @@ class Grid {
     top += margin;
     size -= margin + margin;
 
-    fill(BORDER_LIGHT);
+    fill(_theme.borderTheme.highlight);
     square(left, top, size);
 
     pop();
@@ -176,13 +173,13 @@ class Grid {
 
   private void drawCells() {
     push();
-    stroke(CELL_EDGE_COLOR);
+    stroke(_theme.cellTheme.edge);
     strokeWeight(1);
     int cellSize = _size / _cellCount;
     for (int row = 0; row < _cellCount; ++row) {
       for (int col = 0; col < _cellCount; ++col) {
         fill(_grid.getCellStatus(row, col) ==
-            CellStatus.Populated ? POPULATED_CELL_COLOR : VACANT_CELL_COLOR);
+            CellStatus.Populated ? _theme.cellTheme.populated : _theme.cellTheme.vacant);
         square(MARGIN + col * cellSize, _top + _margin + row * cellSize, cellSize);
       }
     }

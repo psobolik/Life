@@ -1,18 +1,15 @@
 public class Menu {
-  private final color MENU_BORDER_COLOR = #000000;
-  private final color MENU_COLOR = #404040;
-  private final color MENU_TEXT_COLOR = #ffffff;
-  private final color MENU_HOVER_COLOR = #8888ff;
-  private final color MENU_TEXT_HOVER_COLOR = #ffffff;
-
   private final int MENU_ITEM_WIDTH = 235;
   private final int MENU_ITEM_HEIGHT = 32;
   private final int MENU_TEXT_SIZE = 16;
 
+  private MenuTheme _theme;
+
   private ArrayList<MenuItem> _menuItems = new ArrayList<MenuItem>();
   private boolean _isMenuOpen = false;
 
-  public Menu(int left, int top) {
+  public Menu(int left, int top, MenuTheme theme) {
+    _theme = theme;
     _menuItems.add(new MenuItem(MenuAction.File, "Insert Pattern from File…", "Ctrl+O", left, top, MENU_ITEM_WIDTH, MENU_ITEM_HEIGHT));
     top += MENU_ITEM_HEIGHT;
     _menuItems.add(new MenuItem(MenuAction.Random, "Insert Random Pattern", "R", left, top, MENU_ITEM_WIDTH, MENU_ITEM_HEIGHT));
@@ -73,13 +70,13 @@ public class Menu {
       var height = menuItem.getHeight();
       var hover = Utility.isPointInRect(pmouseX, pmouseY, left, top, width, height);
       // Box
-      stroke(MENU_BORDER_COLOR);
-      fill(hover ? MENU_HOVER_COLOR : MENU_COLOR);
+      stroke(_theme.border);
+      fill(hover ? _theme.hoverMenuItem.background : _theme.normalMenuItem.background);
       rect(left, top, width, height);
       // Text
-      stroke(MENU_TEXT_COLOR);
+      stroke(hover ? _theme.hoverMenuItem.text : _theme.normalMenuItem.text);
       left += margin;
-      fill(hover ? MENU_TEXT_HOVER_COLOR : MENU_TEXT_COLOR);
+      fill(hover ? _theme.hoverMenuItem.text : _theme.normalMenuItem.text);
       text(menuItem.getText(), left, top, width, height);
       // Hot key
       var hotKey = menuItem.getHotKey();

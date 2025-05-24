@@ -1,0 +1,40 @@
+{
+    "grid": {
+        "cell": {
+            "edge": "#cccccc",
+            "populated": "#000000",
+            "vacant": "#ffffff"
+        },
+        "border": {
+            "main": "#ffffaa",
+            "highlight": "#000000"
+        }
+    },
+    "header": {
+        "background": "#ffffff",
+        "text": "#000000"
+    },
+    "button": {
+        "normal": {
+            "icon": "#000000",
+            "fill": "#ffffff",
+            "stroke": "#000000"
+        },
+        "hover": {
+            "icon": "#000000",
+            "fill": "#eeeedd",
+            "stroke": "#ffffff"
+        }
+    },
+    "menu": {
+        "border": "0",
+        "normal": {
+            "background": "#ffffff",
+            "text": "0"
+        },
+        "hover": {
+            "background": "#eeeedd",
+            "text": "0"
+        }
+    }
+}

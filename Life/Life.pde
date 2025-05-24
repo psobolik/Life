@@ -18,15 +18,23 @@ private static int _delay = DEFAULT_DELAY;
 private static int _delay_counter = 0;
 
 private static boolean _running = false;
-private Grid _grid = new Grid(CELL_COUNT, 0, HEADER_HEIGHT, GRID_SIZE, MARGIN);
-private Header _header = new Header(GRID_SIZE + MARGIN + MARGIN, HEADER_HEIGHT);
-private Menu _menu = new Menu(_header.getButtonLeft(), _header.getButtonBottom());
+private Grid _grid;
+private Header _header;
+private Menu _menu;
+private Theme _theme = new Theme();
 
 // Processing callbacks
 void setup() {
   // width = GRID_SIZE + MARGIN + MARGIN
   // height = HEADER_HEIGHT + MARGIN + MARGIN
   size(820, 860);
+
+  _theme = loadTheme("theme.json");
+  // println(_theme.toJson());
+  _grid = new Grid(CELL_COUNT, 0, HEADER_HEIGHT, GRID_SIZE, MARGIN, _theme.gridTheme);
+  _header = new Header(GRID_SIZE + MARGIN + MARGIN, HEADER_HEIGHT, _theme.headerTheme, _theme.hoverButtonTheme);
+  _menu = new Menu(_header.getButtonLeft(), _header.getButtonBottom(), _theme.menuTheme);
+
   _grid.draw();
 }
 

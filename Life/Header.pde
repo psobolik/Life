@@ -10,24 +10,18 @@ public class Header {
     private final int PLAY_BUTTON_LEFT = MENU_BUTTON_LEFT + BUTTON_WIDTH + MARGIN;
     private final int STEP_BUTTON_LEFT = PLAY_BUTTON_LEFT + BUTTON_WIDTH;
 
-    private final color BACKGROUND_COLOR = #404040;
-    private final color TEXT_COLOR = #ffffff;
-
-    private final color BUTTON_ICON_COLOR = #cccccc;
-    private final color BUTTON_FILL_COLOR = BACKGROUND_COLOR;
-    private final color BUTTON_STROKE_COLOR = #efefef;
-
-    private final color BUTTON_HOVER_ICON_COLOR = #c0c070;
-    private final color BUTTON_HOVER_FILL_COLOR = #666640;
-    private final color BUTTON_HOVER_STROKE_COLOR = #000000;
-    
     private int _width;
     private int _height;
+    private HeaderTheme _headerTheme;
+    private HoverButtonTheme _buttonTheme;
 
-    public Header(int width, int height) {
+    public Header(int width, int height, HeaderTheme headerTheme, HoverButtonTheme buttonTheme) {
         _width = width;
         _height = height;
+        _headerTheme = headerTheme;
+        _buttonTheme = buttonTheme;
     }
+
     public int getButtonBottom() { return BUTTON_TOP + BUTTON_HEIGHT; }
     public int getButtonLeft() { return MENU_BUTTON_LEFT; }
 
@@ -38,18 +32,22 @@ public class Header {
             : ButtonAction.None;
             
     }
+
     private boolean mouseIsOverPlayButton() {
         return Utility.isPointInRect(pmouseX, pmouseY, PLAY_BUTTON_LEFT, BUTTON_TOP, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
+
     private boolean mouseIsOverStepButton() {
         return Utility.isPointInRect(pmouseX, pmouseY, STEP_BUTTON_LEFT, BUTTON_TOP, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
+
     private boolean mouseIsOverMenuButton() {
         return Utility.isPointInRect(pmouseX, pmouseY, MENU_BUTTON_LEFT, BUTTON_TOP, BUTTON_WIDTH, BUTTON_HEIGHT);
     }
+
     public void draw(boolean isRunning, int generations, int delay) {
         push();
-        fill(BACKGROUND_COLOR);
+        fill(_headerTheme.background);
         strokeWeight(0);
         rect(0, 0, _width, _height);
         drawMenuButton();
@@ -59,6 +57,7 @@ public class Header {
         drawDelayText(delay);
         pop();
     }
+
     private void drawMenuButton() {
         push();
         strokeWeight(0);
@@ -66,18 +65,18 @@ public class Header {
         var hover = mouseIsOverMenuButton();
         if (hover) {
             // hover
-            stroke(BUTTON_HOVER_STROKE_COLOR);
-            fill(BUTTON_HOVER_FILL_COLOR);
+            stroke(_buttonTheme.hover.stroke);
+            fill(_buttonTheme.hover.fill);
         } else { 
-            stroke(BUTTON_STROKE_COLOR);
-            fill(BUTTON_FILL_COLOR);
+            stroke(_buttonTheme.normal.stroke);
+            fill(_buttonTheme.normal.fill);
         }
         rect(MENU_BUTTON_LEFT, BUTTON_TOP, BUTTON_WIDTH, BUTTON_HEIGHT);
         
         if (hover) {
-            fill(BUTTON_HOVER_ICON_COLOR);
+            fill(_buttonTheme.hover.icon);
         } else {
-            fill(BUTTON_ICON_COLOR);
+            fill(_buttonTheme.normal.icon);
         }
         
         var left = MENU_BUTTON_LEFT + MARGIN;
@@ -92,6 +91,7 @@ public class Header {
         rect(left, top, width, height);
         pop();
     }
+
     private void drawPlayButton(boolean isRunning) {
         push();
         strokeWeight(0);
@@ -99,18 +99,18 @@ public class Header {
         var hover = mouseIsOverPlayButton();
         if (hover) {
             // hover
-            stroke(BUTTON_HOVER_STROKE_COLOR);
-            fill(BUTTON_HOVER_FILL_COLOR);
+            stroke(_buttonTheme.hover.stroke);
+            fill(_buttonTheme.hover.fill);
         } else { 
-            stroke(BUTTON_STROKE_COLOR);
-            fill(BUTTON_FILL_COLOR);
+            stroke(_buttonTheme.normal.stroke);
+            fill(_buttonTheme.normal.fill);
         }
         rect(PLAY_BUTTON_LEFT, BUTTON_TOP, BUTTON_WIDTH, BUTTON_HEIGHT);
         
         if (hover) {
-            fill(BUTTON_HOVER_ICON_COLOR);
+            fill(_buttonTheme.hover.icon);
         } else {
-            fill(BUTTON_ICON_COLOR);
+            fill(_buttonTheme.normal.icon);
         }
         
         if (isRunning) {
@@ -136,25 +136,26 @@ public class Header {
         
         pop();
     }
+
     private void drawStepButton() {
         push();
         strokeWeight(0);
 
         var hover = mouseIsOverStepButton();
         if (hover) {
-            // hover 
-            stroke(BUTTON_HOVER_STROKE_COLOR);
-            fill(BUTTON_HOVER_FILL_COLOR);
+            // hover
+            stroke(_buttonTheme.hover.stroke);
+            fill(_buttonTheme.hover.fill);
         } else { 
-            stroke(BUTTON_STROKE_COLOR);
-            fill(BUTTON_FILL_COLOR);
+            stroke(_buttonTheme.normal.stroke);
+            fill(_buttonTheme.normal.fill);
         }
         rect(STEP_BUTTON_LEFT, BUTTON_TOP, BUTTON_WIDTH, BUTTON_HEIGHT);
         
         if (hover) {
-            fill(BUTTON_HOVER_ICON_COLOR);
+            fill(_buttonTheme.hover.icon);
         } else {
-            fill(BUTTON_ICON_COLOR);
+            fill(_buttonTheme.normal.icon);
         }
         
         int left, top, width, height;
@@ -173,18 +174,20 @@ public class Header {
         );
         pop();
     }
+
     private void drawGenerationsText(int generations) {
         push();
-        fill(TEXT_COLOR);
+        fill(_headerTheme.text);
         var s = String.format("%,d generations",  generations);
         textSize(18);
         textAlign(CENTER, CENTER);
         text(s, 0, 0, _width - MARGIN -  MARGIN, _height);
         pop();
     }
+
     private void drawDelayText(int delay) {
         push();
-        fill(TEXT_COLOR);
+        fill(_headerTheme.text);
         String s = String.format("↑↓Delay: %s", delay);
         textSize(18);
         textAlign(RIGHT, CENTER);
